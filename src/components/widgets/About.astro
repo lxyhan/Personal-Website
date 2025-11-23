@@ -18,8 +18,22 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
   )
 }
 
-<style>
+<style is:global>
   .about:not(:empty) {
     margin-bottom: 1.25rem;
+  }
+  
+  .about.prose p {
+    line-height: 1.3 !important;
+  }
+  
+  .about.prose strong,
+  .about.prose b {
+    font-weight: 700 !important;
+  }
+  
+  .about.prose em,
+  .about.prose i {
+    font-style: italic !important;
   }
 </style>

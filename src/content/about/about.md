@@ -2,15 +2,10 @@
 title: 'About'
 ---
 
-<!--
-This content will be displayed at the top of the index page.
-You can leave this empty if you don’t want to show any content.
--->
+I'm a Compsci, Statistics & Economics student at the University of Toronto interested in game theory, behavioral economics, asian history, and quantitative trading. The interesting problems tend to live at the *intersections*.
 
-A static blog theme based on [Astro](https://astro.build), designed for clarity and focus.
+**I believe in the internet.** I work on next-gen privacy infra at [Firefox](https://www.mozilla.org/firefox/) and build open-source tools ([MarkUs](https://github.com/MarkUsProject/Markus) & [PythonTA](https://github.com/pyta-uoft/pyta)) used by *30k+ students*. Led [Blueprint](https://uoftblueprint.org/), [UofT AI](https://www.uoft.ai/), and Trinity College's Orientation. Next year I'll be working on a quantitative trading research team. Won some hackathons ([Hack the North](https://devpost.com/software/orbit-59jths), [UofTHacks](https://dorahacks.io/buidl/21736), [NewHacks](https://devpost.com/software/close-to-home), [Google x Hack the Future](https://devpost.com/software/revo), [Hack the 6ix](https://devpost.com/software/polaris-vlp1wm)) and *organized others*.
 
-With a deliberately minimal design, this layout ensures your content takes center stage. It's built for flexibility, offering customization options that honor its clean and elegant aesthetic.
+I read history and economics voraciously (*an incomplete list*). Recently: *great game espionage*, *the Chilean revolution*, *Fengtian clique politics*, *the Taiping rebellion*, *Napoleon's 1814 campaign*. I see history as pattern recognition at scale. I'm also a triathlete training for the national age group team. Did a few Ironmans and ultra events this year. I find the *best conversations* happen on long runs or at climbing gyms—people are often too exhausted to maintain pretense.
 
-Effortlessly share your thoughts in _a calm & dustless space._
-
-Check posts for details and view source on [GitHub](https://github.com/the3ash/astro-chiri).
+Through this blog, I'll be working through ideas that won't leave me alone. If any of my words resonate with you, write me at [jameshan.cs@gmail.com](mailto:jameshan.cs@gmail.com) and I'd love to chat. Find me on [LinkedIn](https://linkedin.com/in/jameshan) and [GitHub](https://github.com/lxyhan).
