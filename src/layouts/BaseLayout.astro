@@ -4,17 +4,17 @@ import { ClientRouter } from 'astro:transitions'
 import ThemeManager from '@/components/ui/ThemeManager.astro'
 import FaviconThemeSwitcher from '@/components/ui/FaviconThemeSwitcher.astro'
 import TransitionWrapper from '@/components/layout/TransitionWrapper.astro'
+import BlogTree from '@/components/widgets/BlogTree.astro'
+import { getSortedFilteredPosts } from '@/utils/draft'
 import type { LayoutProps } from '@/types'
 
 type Props = LayoutProps
 
 const { type = 'page' } = Astro.props
 const language = themeConfig.site.language || 'en-US'
-const contentWidth = themeConfig.general.contentWidth
 const fadeAnimation = themeConfig.general.fadeAnimation
-const widthValue = Math.min(parseFloat(contentWidth), 50)
-const shouldUseCustomWidth = widthValue > 25
-const finalWidth = shouldUseCustomWidth ? `${widthValue}rem` : '25rem'
+
+const posts = await getSortedFilteredPosts()
 ---
 
 <html lang={language}>
@@ -23,36 +23,137 @@ const finalWidth = shouldUseCustomWidth ? `${widthValue}rem` : '25rem'
     {fadeAnimation && <ClientRouter />}
     <slot name="head" />
   </head>
-  <body
-    data-centered={themeConfig.general.centeredLayout}
-    style={`
-      max-width: ${finalWidth};
-      ${shouldUseCustomWidth ? `--content-width: ${widthValue}rem;` : ''}
-    `}
-  >
+  <body data-centered={themeConfig.general.centeredLayout}>
     <FaviconThemeSwitcher />
 
-    {
-      fadeAnimation ? (
-        <TransitionWrapper type={type} class="layout-wrapper">
-          <slot />
-        </TransitionWrapper>
-      ) : (
-        <div class="layout-wrapper">
-          <slot />
-        </div>
-      )
-    }
+    <div class="site-grid">
+      <div class="main-column">
+        {
+          fadeAnimation ? (
+            <TransitionWrapper type={type} class="layout-wrapper">
+              {/* STRUCTURAL CHANGE: We created a grid container here */}
+              <div class="two-col-grid">
+                
+                {/* COL 1: Main Content (About, Posts, etc) */}
+                <main class="content-area">
+                  <slot />
+                </main>
+
+                {/* COL 2: Sidebar (Blog Tree) */}
+                <aside class="sidebar-area">
+                  <div class="blog-tree-sticky">
+                    <BlogTree posts={posts} />
+                  </div>
+                </aside>
+
+              </div>
+            </TransitionWrapper>
+          ) : (
+            <div class="layout-wrapper">
+              <div class="two-col-grid">
+                <main class="content-area">
+                  <slot />
+                </main>
+                <aside class="sidebar-area">
+                  <div class="blog-tree-sticky">
+                    <BlogTree posts={posts} />
+                  </div>
+                </aside>
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
   </body>
 </html>
 
 <style is:global>
+  /* 1. Base Site Setup */
+  .site-grid {
+    width: 100%;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+
+  .main-column {
+    width: 100%;
+    padding: 0 1.5rem;
+  }
+
   .layout-wrapper {
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 7.5rem);
+    width: 100%;
   }
 
+  /* 2. The Grid Container */
+  /* This holds the Main Content and the Sidebar side-by-side on desktop */
+  .two-col-grid {
+    width: 100%;
+    max-width: 85rem; /* Limit total width so sidebar doesn't fly too far right */
+    margin: 0 auto;
+    display: flex; /* Default to mobile stack */
+    flex-direction: column;
+  }
+
+  /* 3. Main Content Area */
+  .content-area {
+    width: 100%;
+    max-width: 100ch; /* Increased from 65ch for better readability */
+    margin: 0 auto; /* Center on mobile */
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem; /* Add some padding on mobile */
+  }
+
+  /* 4. Sidebar Area (Mobile Defaults) */
+  .sidebar-area {
+    width: 100%;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border); /* Separator line for mobile */
+  }
+
+  /* 5. Desktop Logic (The fix you requested) */
+  @media (min-width: 1280px) {
+    
+    /* Turn on the Grid */
+    .two-col-grid {
+      display: grid;
+      /* Left column takes available space, Right column is fixed ~20rem */
+      grid-template-columns: minmax(0, 1fr) 20rem; 
+      gap: 4rem; /* Space between columns */
+      align-items: start;
+      padding-top: 2rem;
+    }
+
+    /* Left Column Alignment */
+    .content-area {
+      margin: 0; /* Remove auto margin so it aligns left towards sidebar */
+      max-width: 100ch; /* Increased from 65ch */
+      padding: 0;
+    }
+
+    /* Right Column Styling */
+    .sidebar-area {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none; /* Remove mobile border */
+      height: 100%; /* Full height for sticky context */
+    }
+
+    /* Sticky Behavior */
+    .blog-tree-sticky {
+      position: sticky;
+      top: 5rem; /* Sticks 5rem from top of screen */
+      max-height: calc(100vh - 6rem);
+      overflow-y: auto; /* Scroll sidebar internally if needed */
+    }
+  }
+
+  /* Footer offset adjustments */
   @media (max-width: 768px) {
     .layout-wrapper {
       min-height: calc(100vh - 5.5rem);

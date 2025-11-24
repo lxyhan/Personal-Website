@@ -59,7 +59,7 @@
 
       getEffectiveTheme() {
         const stored = this.getStoredTheme()
-        return stored || 'light' // Default to light mode instead of system theme
+        return stored || this.getSystemTheme() // Use system theme if no preference stored
       },
 
       isUsingSystemTheme() {

@@ -38,25 +38,29 @@ const ogImage = `/open-graph/${postSlug}.png`
   />
   <div class="post-container">
     <main>
-      <div class="prose">
-        <GradientMask />
-        <BackButton />
-        {themeConfig.post.toc && <TableOfContents toc={toc} />}
-        <div class="title">
-          <h1>{title}</h1>
-          <div class="date">
-            <FormattedDate date={pubDate} context="post" />
-            {
-              themeConfig.post.readingTime && readingTime && (
-                <span class="reading-time">
-                  <span class="separator">·</span>
-                  {readingTime.text}
-                </span>
-              )
-            }
+      <div class="post-inner">
+        <aside class="post-rail" aria-label="Post navigation">
+          <BackButton />
+          {themeConfig.post.toc && <TableOfContents toc={toc} />}
+        </aside>
+        <article class="post-article prose">
+          <GradientMask />
+          <div class="title">
+            <h1>{title}</h1>
+            <div class="date">
+              <FormattedDate date={pubDate} context="post" />
+              {
+                themeConfig.post.readingTime && readingTime && (
+                  <span class="reading-time">
+                    <span class="separator">·</span>
+                    {readingTime.text}
+                  </span>
+                )
+              }
+            </div>
           </div>
-        </div>
-        <slot />
+          <slot />
+        </article>
       </div>
     </main>
     <ImageOptimizer />
@@ -80,5 +84,66 @@ const ogImage = `/open-graph/${postSlug}.png`
 
   .post-container main {
     flex: 1;
+  }
+
+  .post-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .post-rail {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    font-size: var(--font-size-s);
+    position: sticky;
+    top: 5rem;
+  }
+
+  .post-article {
+    min-width: 0;
+  }
+
+  @media (max-width: 1023px) {
+    .post-inner {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .post-rail {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Make TOC visible inside the post rail (TableOfContents lives in a child component) */
+  .post-rail .toc-container {
+    opacity: 1 !important;
+    display: block !important;
+  }
+
+  .post-rail .toc-link {
+    color: var(--text-secondary) !important;
+    font-size: var(--font-size-s) !important;
+    line-height: 1.3;
+    text-indent: 0;
+    height: auto;
+    width: auto;
+  }
+
+  /* Disable ghost pseudo-elements inside the rail; show plain text instead */
+  .post-rail .toc-link::after,
+  .post-rail .toc-link::before {
+    content: none !important;
   }
 </style>

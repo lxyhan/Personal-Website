@@ -119,7 +119,7 @@ body {
   flex-direction: column;
   box-sizing: border-box;
   letter-spacing: -0.05em;
-  padding: 6rem 1.5rem 1.5rem 1.5rem;
+  padding: 6rem 10rem 1.5rem 10rem;
   overscroll-behavior-y: contain;
   transition: background-color 0.2s ease-out;
 }
