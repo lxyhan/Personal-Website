@@ -64,7 +64,12 @@
       })
     }
 
-    viewer?.addEventListener('click', hideImage)
+    viewer?.addEventListener('click', (e) => {
+      // Close viewer when clicking on the background or image
+      if (e.target === viewer || e.target === viewerImg) {
+        hideImage()
+      }
+    })
 
     // Prevent touch scroll in image viewer
     viewer?.addEventListener(

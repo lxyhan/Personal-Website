@@ -7,14 +7,12 @@ import FontToggle from '@/components/ui/FontToggle.astro'
 <header>
   <nav>
     <div class="profile-container">
-      <a href="/" class="profile-pics-link">
-        <div class="profile-pics">
-          <img src="/profile1.png" alt="Profile 1" class="profile-pic" />
-          <img src="/profile2.png" alt="Profile 2" class="profile-pic" />
-          <img src="/profile3.png" alt="Profile 3" class="profile-pic" />
-          <img src="/profile4.png" alt="Profile 4" class="profile-pic" />
-        </div>
-      </a>
+      <div class="profile-pics">
+        <img src="/profile1.png" alt="Profile 1" class="profile-pic" data-preview="true" />
+        <img src="/profile2.png" alt="Profile 2" class="profile-pic" data-preview="true" />
+        <img src="/profile3.png" alt="Profile 3" class="profile-pic" data-preview="true" />
+        <img src="/profile4.png" alt="Profile 4" class="profile-pic" data-preview="true" />
+      </div>
       <div class="name-row">
         <span class="name">{themeConfig.site.title}</span>
         <div class="toggle-group">
@@ -60,6 +58,7 @@ import FontToggle from '@/components/ui/FontToggle.astro'
     aspect-ratio: 1;
     object-fit: cover;
     display: block;
+    cursor: pointer !important;
   }
   
   @media (min-width: 768px) {
